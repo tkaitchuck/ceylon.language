@@ -611,12 +611,18 @@ shared interface Iterable<out Element, out Absent=Null>
     shared default Iterable<Element|Other,Absent&OtherAbsent> 
     chain<Other,OtherAbsent>(Iterable<Other,OtherAbsent> other) 
              given OtherAbsent satisfies Null {
-        object chained 
-                satisfies Iterable<Element|Other,Absent&OtherAbsent> {
-            shared actual Iterator<Element|Other> iterator() =>
-                    ChainedIterator(outer, other);
+        if (is ChainedIterable<Element,Absent> self=this) {
+            return ChainedIterable<Element|Other,Absent&OtherAbsent>
+                    (self.iterables.withTrailing(other));
         }
-        return chained;
+        else if (is ChainedIterable<Other,OtherAbsent> other) {
+            return ChainedIterable<Element|Other,Absent&OtherAbsent>
+                    (other.iterables.withLeading(this));
+        }
+        else {
+            return ChainedIterable<Element|Other,Absent&OtherAbsent>
+                    ([this,other]);
+        }
     }
     
     "Produces a stream containing the elements of this 
