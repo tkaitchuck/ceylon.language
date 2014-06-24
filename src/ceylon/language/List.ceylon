@@ -648,7 +648,7 @@ shared interface List<out Element>
     shared default [Element|Other+] withTrailing<Other>(
             "The last element of the resulting sequence."
             Other element)
-            => [*(this chain Singleton(element))];
+            => [*(this chain [element])];
     
     "Return a sequence containing the elements of this list, 
      in the order in which they occur in this list, followed 

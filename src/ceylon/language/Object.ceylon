@@ -5,7 +5,7 @@
        true==false
        1=="hello world"
        "hello"+" "+"world"=="hello world"
-       Singleton("hello world")=={ "hello world" }
+       sequence { "hello", "world" }==["hello", "world"]
    
    However, since `Null` is not a subtype of `Object`, the
    value `null` cannot be compared to any other value using 

@@ -1179,7 +1179,8 @@ public final class String
             @Name("groupSeparators") 
             boolean groupSeparators) {
         if (value.isEmpty()) {
-            return new Singleton<String>(String.$TypeDescriptor$, this);
+            return new Tuple<String,String,Sequential<? extends String>>
+                    (String.$TypeDescriptor$, new String[]{this});
         }
         return new StringTokens(value, splitting, 
         		!discardSeparators, groupSeparators);
@@ -1192,8 +1193,8 @@ public final class String
             boolean discardSeparators,
             boolean groupSeparators) {
         if (value.isEmpty()) {
-            return new Singleton<String>(String.$TypeDescriptor$, 
-                    instance(value));
+            return new Tuple<String,String,Sequential<? extends String>>
+                    (String.$TypeDescriptor$, new String[]{instance(value)});
         }
         return new StringTokens(value, splitting, 
         		!discardSeparators, groupSeparators);
