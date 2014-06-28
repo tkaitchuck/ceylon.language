@@ -632,10 +632,12 @@ shared interface List<out Element>
     see (`function follow`, 
         `function prepend`,
         `function withTrailing`)
-    shared default [Other,Element*] withLeading<Other>(
+    shared default [Other,Other|Element*] withLeading<Other>(
             "The first element of the resulting sequence."
-            Other element)
-            => [element, *this];
+            Other+ element) {
+        assert (is Other first = element.first); //TODO: assertion neeeded due to compiler bug!
+        return [first, *element.rest.chain(this)]; 
+    }
     
     "Returns a new sequence that starts with the elements of 
      this list, in the order they occur in this list, and 
@@ -646,8 +648,8 @@ shared interface List<out Element>
         `function withLeading`)
     shared default [Element|Other+] withTrailing<Other>(
             "The last element of the resulting sequence."
-            Other element)
-            => [*chain(Singleton(element))];
+            Other+ element) 
+            => [*chain(element)];
     
     "Return a sequence containing the elements of this list, 
      in the order in which they occur in this list, followed 

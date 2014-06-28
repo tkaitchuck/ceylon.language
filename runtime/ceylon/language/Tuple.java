@@ -19,6 +19,7 @@ import com.redhat.ceylon.compiler.java.metadata.FunctionalParameter;
 import com.redhat.ceylon.compiler.java.metadata.Ignore;
 import com.redhat.ceylon.compiler.java.metadata.Name;
 import com.redhat.ceylon.compiler.java.metadata.SatisfiedTypes;
+import com.redhat.ceylon.compiler.java.metadata.Sequenced;
 import com.redhat.ceylon.compiler.java.metadata.Transient;
 import com.redhat.ceylon.compiler.java.metadata.TypeInfo;
 import com.redhat.ceylon.compiler.java.metadata.TypeParameter;
@@ -585,11 +586,16 @@ public final class Tuple<Element, First extends Element,
     @TypeInfo("ceylon.language::Tuple<Element|Other,Other,ceylon.language::Tuple<Element,First,Rest>>")
     public final <Other> Tuple<java.lang.Object, ? extends Other, Tuple<Element,? extends First,? extends Rest>>
     withLeading(@Ignore TypeDescriptor $reifiedOther, 
-                @Name("element") Other e) {
+                @Name("element") @Sequenced Sequence<? extends Other> es) {
         int length = this.array.length;
-        java.lang.Object[] array = new java.lang.Object[length+1];
-        array[0] = e;
-        arraycopy(this.array, 0, array, 1, length);
+        java.lang.Object[] array = new java.lang.Object[length+Util.toInt(es.getSize())];
+        int ii = 0;
+        Iterator<?> iter = es.iterator();
+        java.lang.Object o;
+        while (!((o = iter.next()) instanceof Finished)) {
+            array[ii++] = o;
+        }
+        arraycopy(this.array, 0, array, ii, length);
         return new Tuple<java.lang.Object, Other, Tuple<Element,? extends First,? extends Rest>>
                 (TypeDescriptor.union($reifiedElement,$reifiedOther), array);
     }
@@ -601,23 +607,7 @@ public final class Tuple<Element, First extends Element,
     @TypeInfo("ceylon.language::Tuple<Element|Other,First,ceylon.language::Sequence<Element|Other>>")
     public <Other> Tuple<java.lang.Object, First, ? extends Sequential<?>>
     withTrailing(@Ignore TypeDescriptor $reifiedOther,
-                 @Name("element") Other e) {
-        int length = this.array.length;
-        java.lang.Object[] array = new java.lang.Object[length+1];
-        arraycopy(this.array, 0, array, 0, length);
-        array[length] = e;
-        return new Tuple<java.lang.Object, First, Sequential<?>>
-                (TypeDescriptor.union($reifiedElement,$reifiedOther), array);
-    }
-    
-    @Annotations({
-        @Annotation("shared"),
-        @Annotation("actual")})
-    @Override
-    @TypeInfo("ceylon.language::Tuple<Element|Other,First,ceylon.language::Sequential<Element|Other>>")
-    public <Other> Tuple<java.lang.Object,First,Sequential<?>>
-    append(@Ignore TypeDescriptor $reifiedOther, 
-           @Name("elements") List<? extends Other> es) {
+                 @Name("element") @Sequenced Sequence<? extends Other> es) {
         int length = this.array.length;
         java.lang.Object[] array = new java.lang.Object[length+Util.toInt(es.getSize())];
         arraycopy(this.array, 0, array, 0, length);
@@ -627,10 +617,10 @@ public final class Tuple<Element, First extends Element,
         while (!((o = iter.next()) instanceof Finished)) {
             array[ii++] = o;
         }
-        return new Tuple<java.lang.Object,First,Sequential<?>>
+        return new Tuple<java.lang.Object, First, Sequential<?>>
                 (TypeDescriptor.union($reifiedElement,$reifiedOther), array);
     }
-
+    
     /** Gets the underlying array. Used for iteration using a C-style for */
     @Ignore
     public java.lang.Object[] $getArray$() {

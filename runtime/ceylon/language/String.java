@@ -1624,16 +1624,16 @@ public final class String
     }
     
     @Ignore
-    public static <Other>Tuple<java.lang.Object,? extends Other,? extends Sequential<? extends Character>>
+    public static <Other>Tuple<java.lang.Object,? extends Other,? extends Sequential<?>>
     withLeading(@Ignore TypeDescriptor $reifiedOther, 
-            java.lang.String value, Other e) {
-        return instance(value).withLeading($reifiedOther, e);
+            java.lang.String value, Sequence<? extends Other> es) {
+        return instance(value).withLeading($reifiedOther, es);
     }
 
     @Ignore @SuppressWarnings({ "rawtypes" })
     public static <Other>Sequence withTrailing(@Ignore TypeDescriptor $reifiedOther, 
-            java.lang.String value, Other e) {
-        return instance(value).withTrailing($reifiedOther, e);
+            java.lang.String value, Sequence<? extends Other> es) {
+        return instance(value).withTrailing($reifiedOther, es);
     }
 
     @Ignore @SuppressWarnings({ "rawtypes" })
