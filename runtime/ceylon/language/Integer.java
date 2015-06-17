@@ -18,7 +18,8 @@ import com.redhat.ceylon.compiler.java.runtime.model.TypeDescriptor;
 @SatisfiedTypes({
     "ceylon.language::Integral<ceylon.language::Integer>",
     "ceylon.language::Binary<ceylon.language::Integer>",
-    "ceylon.language::Exponentiable<ceylon.language::Integer,ceylon.language::Integer>"
+    "ceylon.language::Exponentiable<ceylon.language::Integer,ceylon.language::Integer>",
+    "ceylon.language::Immutable"
 })
 @Class(extendsType="ceylon.language::Object", basic = false, identifiable = false)
 @ValueType

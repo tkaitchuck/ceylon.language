@@ -15,7 +15,8 @@ import com.redhat.ceylon.compiler.java.runtime.model.TypeDescriptor;
 @Class(extendsType="ceylon.language::Object", basic = false, identifiable = false)
 @SatisfiedTypes({
     "ceylon.language::Number<ceylon.language::Float>",
-    "ceylon.language::Exponentiable<ceylon.language::Float,ceylon.language::Float>"
+    "ceylon.language::Exponentiable<ceylon.language::Float,ceylon.language::Float>",
+    "ceylon.language::Immutable"
 })
 @ValueType
 public final class Float

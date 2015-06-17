@@ -43,7 +43,8 @@ shared native final class Byte(congruent)
         extends Object()
         satisfies Binary<Byte> & 
                   Invertible<Byte> &
-                  Enumerable<Byte> {
+                  Enumerable<Byte> & 
+				  Immutable {
     
     "An integer member of the congruence class of the 
      resulting `Byte`.

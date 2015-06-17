@@ -42,7 +42,8 @@ see (`function parseFloat`)
 shared native final class Float(Float float)
         extends Object()
         satisfies Number<Float> & 
-                  Exponentiable<Float,Float> {
+                  Exponentiable<Float,Float> &
+				  Immutable {
     
     "Determines whether this value is undefined (that is, 
      Not a Number or NaN). The undefined value has the 

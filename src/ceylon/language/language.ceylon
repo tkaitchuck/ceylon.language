@@ -1,7 +1,7 @@
 "Contains information about the Ceylon language version."
 see (`value process`, `value runtime`, `value system`,
      `value operatingSystem`)
-shared native object language {
+shared native object language satisfies Immutable {
     
     "The Ceylon language version."
     shared native String version;

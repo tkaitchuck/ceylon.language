@@ -14,7 +14,8 @@ import com.redhat.ceylon.compiler.java.runtime.model.TypeDescriptor;
 @Ceylon(major = 8)
 @Class(extendsType="ceylon.language::Object", basic = false, identifiable = false)
 @SatisfiedTypes({"ceylon.language::Comparable<ceylon.language::Character>",
-		        "ceylon.language::Enumerable<ceylon.language::Character>"})
+		        "ceylon.language::Enumerable<ceylon.language::Character>",
+                "ceylon.language::Immutable"})
 @ValueType
 public final class Character
         implements Comparable<Character>, Enumerable<Character>, ReifiedType {

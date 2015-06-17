@@ -3,7 +3,7 @@
 see (`function parseBoolean`) 
 by ("Gavin")
 shared abstract class Boolean()
-        of true | false {}
+        of true | false satisfies Immutable {}
 
 "A value representing truth in Boolean logic."
 shared native object true 

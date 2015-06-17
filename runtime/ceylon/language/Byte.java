@@ -15,7 +15,8 @@ import com.redhat.ceylon.compiler.java.runtime.model.TypeDescriptor;
 @SatisfiedTypes({
     "ceylon.language::Binary<ceylon.language::Byte>",
     "ceylon.language::Invertible<ceylon.language::Byte>",
-    "ceylon.language::Enumerable<ceylon.language::Byte>"
+    "ceylon.language::Enumerable<ceylon.language::Byte>",
+    "ceylon.language::Immutable"
 })
 @Class(extendsType="ceylon.language::Object", basic = false, identifiable = false)
 @ValueType

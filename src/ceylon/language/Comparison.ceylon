@@ -3,7 +3,7 @@
 see (`interface Comparable`)
 by ("Gavin")
 shared abstract class Comparison(shared actual String string) 
-        of larger | smaller | equal {
+        of larger | smaller | equal satisfies Immutable {
     "The reversed value of this comparison."
     shared formal Comparison reversed;
 }

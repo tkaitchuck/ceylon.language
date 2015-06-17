@@ -29,7 +29,8 @@ by ("Gavin")
 shared final native class Character(Character character)
         extends Object()
         satisfies Comparable<Character> & 
-                  Enumerable<Character> {
+                  Enumerable<Character> &
+				  Immutable {
     
     "A string containing just this character."
     shared actual native String string;

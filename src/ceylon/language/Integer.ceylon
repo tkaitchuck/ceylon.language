@@ -43,7 +43,8 @@ shared native final class Integer(Integer integer)
         extends Object()
         satisfies Integral<Integer> &
                   Binary<Integer> & 
-                  Exponentiable<Integer,Integer> {
+                  Exponentiable<Integer,Integer> &
+				  Immutable {
     
     "The UTF-32 character with this UCS code point."
     throws (`class OverflowException`,
