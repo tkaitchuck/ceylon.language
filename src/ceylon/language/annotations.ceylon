@@ -10,6 +10,10 @@ import ceylon.language.meta.declaration {
     ValueDeclaration,
     FunctionOrValueDeclaration
 }
+import foo.bar {
+	ImmutableAnnotation,
+	BlockingAnnotation
+}
 
 "The annotation class for the [[annotation]] meta-annotation."
 shared final sealed annotation class AnnotationAnnotation()
@@ -304,4 +308,21 @@ shared final annotation class SerializableAnnotation()
  instances of non-serializable classes."
 shared annotation SerializableAnnotation serializable() 
         => SerializableAnnotation();
+
+
+"The annotation class for the [[blocking]] annotation."
+shared final annotation class BlockingAnnotation()
+		satisfies OptionalAnnotation<BlockingAnnotation,FunctionDeclaration> {}
+
+"Annotation to specify that a method is blocking."
+shared annotation BlockingAnnotation blocking() => BlockingAnnotation();
+
+"The annotation class for the [[immutable]] annotation."
+shared final annotation class ImmutableAnnotation()
+		satisfies OptionalAnnotation<ImmutableAnnotation,ClassDeclaration> {}
+
+"Annotation to specify that a class is immutable.
+ An immutable class must have no variable members,
+ and all of its members must also be immutable or primitives."
+shared annotation ImmutableAnnotation immutable() => ImmutableAnnotation();
 
