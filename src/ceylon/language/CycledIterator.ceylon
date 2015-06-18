@@ -1,4 +1,4 @@
-class CycledIterator<Element>
+mutable class CycledIterator<Element>
                 ({Element*} iterable, Integer times) 
         satisfies Iterator<Element> {
     

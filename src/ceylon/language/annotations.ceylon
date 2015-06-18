@@ -322,3 +322,11 @@ shared annotation BlockingAnnotation blocking() => BlockingAnnotation();
 // and all of its members must also be immutable or primitives."
 //shared annotation ImmutableAnnotation immutable() => ImmutableAnnotation();
 
+"The annotation class for the [[mutable]] annotation."
+shared final annotation class MutableAnnotation()
+		satisfies OptionalAnnotation<MutableAnnotation,ClassDeclaration> {}
+
+"Annotation to specify that a class is locally mutable.
+ A mutable class has variable members."
+shared annotation MutableAnnotation mutable() => MutableAnnotation();
+
