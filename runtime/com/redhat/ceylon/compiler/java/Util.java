@@ -3,8 +3,6 @@ package com.redhat.ceylon.compiler.java;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.HashMap;
 
@@ -26,14 +24,13 @@ import ceylon.language.finished_;
 import ceylon.language.sequence_;
 
 import com.redhat.ceylon.compiler.java.language.AbstractArrayIterable;
-import com.redhat.ceylon.compiler.java.language.ObjectArray.ObjectArrayIterable;
+import com.redhat.ceylon.compiler.java.language.ObjectArrayIterable;
 import com.redhat.ceylon.compiler.java.metadata.Class;
 import com.redhat.ceylon.compiler.java.metadata.Name;
 import com.redhat.ceylon.compiler.java.metadata.TypeInfo;
 import com.redhat.ceylon.compiler.java.runtime.metamodel.Metamodel;
 import com.redhat.ceylon.compiler.java.runtime.model.TypeDescriptor;
 import com.redhat.ceylon.model.cmr.ArtifactResult;
-import com.redhat.ceylon.model.loader.NamingBase;
 
 /**
  * Helper class for generated Ceylon code that needs to call implementation logic.
