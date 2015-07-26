@@ -322,7 +322,7 @@ public final class String
         return key >= 0 && key < getSize(value);
     }
     
-    @Override
+    /*@Override
     @TypeInfo("ceylon.language::Entry<ceylon.language::Boolean,ceylon.language::Null|ceylon.language::Character>")
     public Entry<? extends Boolean, ? extends Character> lookup(@Name("index") Integer index) {
         return lookup(value, index.value);
@@ -337,7 +337,7 @@ public final class String
                 Character.$TypeDescriptor$,
                 Boolean.instance(item!=null), 
                 item);
-    }
+    }*/
 
     @Override
     @Transient

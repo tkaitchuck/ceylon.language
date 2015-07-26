@@ -274,7 +274,7 @@ public class Metamodel {
         if (!result
                 && !(instance instanceof ReifiedType)// we lack reified types
                 && type instanceof TypeDescriptor.Class// we're testing for a generic type
-                && ((TypeDescriptor.Class)type).getTypeArguments().length > 0
+                && ((TypeDescriptor.Class)type).isGeneric()
                 && ((TypeDescriptor.Class)type).getKlass().isInstance(instance)// the instance is an instance of the base type
                 && !reifiedByInheritance(instance.getClass(), ((TypeDescriptor.Class)type).getKlass())// the type isn't reified by inheritance
                 ) {
@@ -1586,7 +1586,8 @@ public class Metamodel {
         
         // now do a regular invocation
         Sequential<? extends Object> argumentSequence = values.sequence();
-        return Util.apply(function, argumentSequence);
+        // we can trust any variadic or pseudo-variadic since we checked parameter by parameter (no spreading possible)
+        return Util.apply(function, argumentSequence, null);
     }
     
     private static Map<String, Object> collectArguments(ceylon.language.Iterable<? extends ceylon.language.Entry<? extends ceylon.language.String,? extends Object>,? extends Object> arguments) {
@@ -1643,7 +1644,8 @@ public class Metamodel {
             i++;
         }
         // they are all good, let's call it
-        return Util.apply(function, arguments);
+        TypeDescriptor variadicElementType = variadicElement != null ? Metamodel.getTypeDescriptorForProducedType(variadicElement) : null;
+        return Util.apply(function, arguments, variadicElementType);
     }
     
     public static <K,C>K bind(ceylon.language.meta.model.Qualified<K,C> member, Type containerType, Object container){

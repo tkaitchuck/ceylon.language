@@ -222,7 +222,7 @@ public final class Tuple<Element, First extends Element,
     
     @Ignore
     protected TypeDescriptor $getReifiedElement$() {
-        return ((TypeDescriptor.Class)$getType$()).getTypeArguments()[0];
+        return ((TypeDescriptor.Class)$getType$()).getSequenceElement();
     }
     
     @Annotations({
@@ -250,8 +250,8 @@ public final class Tuple<Element, First extends Element,
         }
         else {
             TypeDescriptor typeArg = ((TypeDescriptor.Class)
-            		((TypeDescriptor.Class)$getType$()).getTypeArguments()[2])
-            		.getTypeArguments()[0];
+            		((TypeDescriptor.Class)$getType$()).getTupleRest())
+            		.getSequenceElement();
 			java.lang.Object[] copy = 
 					Arrays.copyOfRange(this.array, 1, this.array.length);
 			return (Rest) new Tuple(typeArg, copy, rest, false);
@@ -740,10 +740,10 @@ public final class Tuple<Element, First extends Element,
     public void $serialize$(Deconstructor dtor) {
         // Don't call super.$serialize$() since our runtime super class is 
         // an implementation detail
-        Generic myTd = (TypeDescriptor.Generic)$getType$();
+        TypeDescriptor.Class myTd = (TypeDescriptor.Class)$getType$();
         
-        TypeDescriptor reifiedFirst = myTd.getTypeArguments()[1];
-        TypeDescriptor reifiedRest = myTd.getTypeArguments()[2];
+        TypeDescriptor reifiedFirst = myTd.getTupleFirstElement();
+        TypeDescriptor reifiedRest = myTd.getTupleRest();
         
         ValueDeclaration firstAttribute = (ValueDeclaration)
                 ((ClassDeclaration) getOrCreateMetamodel(Tuple.class))
@@ -1024,7 +1024,7 @@ public final class Tuple<Element, First extends Element,
         return getFromFirst(index.value);
     }
     
-    @Override @Ignore
+    /*@Override @Ignore
     public Entry<? extends Boolean,? extends Element> 
     lookup(Integer index) {
         boolean defined = defines(index);
@@ -1035,7 +1035,7 @@ public final class Tuple<Element, First extends Element,
                 $getReifiedElement$(),
                 Boolean.instance(defined), 
                 item);
-    }
+    }*/
 
     @Override @Ignore
     public boolean includes(List<? extends java.lang.Object> list) {

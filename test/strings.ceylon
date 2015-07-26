@@ -42,6 +42,7 @@ shared void strings() {
     check(hello.occurrences('l').sequence()==[2,3], "string occurrences");
     check(hello.inclusions("l").sequence()==[2,3], "string inclusions");
     check(hello.inclusions("hell").sequence()==[0], "string inclusions");
+    check("aabbaa".inclusions("aa").sequence()==[0,4], "string inclusions");
     
     check(hello.size==5, "string size 1");
     check("".size==0, "empty string size 2");
@@ -568,8 +569,8 @@ shared void strings() {
     value charr=Array.ofSize(3,'x');
     "abc".copyTo(charr);
     check(charr==Array{'a','b','c'}, "String.copyTo");
-    check("abc".lookup(2).key, "String.lookup 1");
+    /*check("abc".lookup(2).key, "String.lookup 1");
     check("abc".lookup(2).item exists, "String.lookup 2");
     check(!"abc".lookup(10).key, "String.lookup 3");
-    check(!"abc".lookup(10).item exists, "String.lookup 4");
+    check(!"abc".lookup(10).item exists, "String.lookup 4");*/
 }
