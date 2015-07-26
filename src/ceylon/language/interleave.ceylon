@@ -22,23 +22,25 @@ shared Iterable<Element,Absent>
     
     empty => package.any { for (it in iterables) it.empty };
     
-    iterator() => object satisfies Iterator<Element> {
-        value iterators 
-                = iterables.collect((Iterable<Element> it) 
-            => it.iterator());
-        variable value which = 0;
-        shared actual Element|Finished next() {
-            assert (exists iter = iterators[which]);
-            if (!is Finished next = iter.next()) {
-                if (++which>=iterators.size) {
-                    which = 0;
+    shared actual Iterator<Element> iterator() {
+        mutable object result satisfies Iterator<Element> {
+            value iterators 
+                    = iterables.collect((Iterable<Element> it) 
+                => it.iterator());
+            variable value which = 0;
+            shared actual Element|Finished next() {
+                assert (exists iter = iterators[which]);
+                if (!is Finished next = iter.next()) {
+                    if (++which>=iterators.size) {
+                        which = 0;
+                    }
+                    return next;
                 }
-                return next;
-            }
-            else {
-                return finished;
+                else {
+                    return finished;
+                }
             }
         }
-    };
-    
+        return result;
+    }
 };

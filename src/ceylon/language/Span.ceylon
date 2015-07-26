@@ -123,33 +123,33 @@ class Span<Element>(first, last)
      iterator produces elements from [[first]] and continues 
      producing elements until it reaches an element whose 
      `offset` from [[last] is zero."
-    shared actual 
-    Iterator<Element> iterator() 
-            => object
-            satisfies Iterator<Element> {
-        variable Boolean firstTime = true;
-        variable Element|Finished element = first;
-        shared actual Element|Finished next() {
-            if (!is Finished c = element) {
-                Element result;
-                if (firstTime) {
-                    firstTime = false;
-                    result = c;
+    shared actual Iterator<Element> iterator() {
+        mutable object result satisfies Iterator<Element> {
+            variable Boolean firstTime = true;
+            variable Element|Finished element = first;
+            shared actual Element|Finished next() {
+                if (!is Finished c = element) {
+                    Element result;
+                    if (firstTime) {
+                        firstTime = false;
+                        result = c;
+                    } else {
+                        result = outer.next(c);
+                    }
+                    if (result.offset(last) == 0) {
+                        this.element = finished;
+                    } else {
+                        this.element  = result;
+                    }
+                    return result;
                 } else {
-                    result = outer.next(c);
+                    return element ;
                 }
-                if (result.offset(last) == 0) {
-                    this.element = finished;
-                } else {
-                    this.element  = result;
-                }
-                return result;
-            } else {
-                return element ;
             }
+            string => "(``outer``).iterator()";
         }
-        string => "(``outer``).iterator()";
-    };
+        return result;
+    }
     
     shared actual 
     {Element+} by(Integer step) {
@@ -270,8 +270,7 @@ class Span<Element>(first, last)
         shared actual 
         Iterator<Element> iterator() {
             if (recursive) {
-                return object
-                        satisfies Iterator<Element> {
+                mutable object result satisfies Iterator<Element> {
                     variable value count = 0;
                     variable value current = first;
                     shared actual Element|Finished next() {
@@ -284,10 +283,10 @@ class Span<Element>(first, last)
                         }
                     }
                     string => "``outer``.iterator()";
-                };
+                }
+                return result;
             } else {
-                return object
-                        satisfies Iterator<Element> {
+                mutable object result satisfies Iterator<Element> {
                     variable Element|Finished current = first;
                     variable value firstTime = true;
                     shared actual Element|Finished next() {
@@ -307,7 +306,8 @@ class Span<Element>(first, last)
                         }
                     }
                     string => "``outer``.iterator()";
-                };
+                }
+                return result;
             }
         }
     }

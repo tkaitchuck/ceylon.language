@@ -8,7 +8,7 @@ native class TpMap<out V>(shared dynamic m, shared dynamic ord)
     shared actual Integer hash => (super of Map<TypeParameter,V>).hash;
     shared actual TpMap<V> clone() => this;
     shared native actual Iterator<TypeParameter->V> iterator() {
-        native object miter satisfies Iterator<TypeParameter->V> {
+        native mutable object miter satisfies Iterator<TypeParameter->V> {
             shared variable Integer idx=-1;
             shared actual native <TypeParameter->V>|Finished next();
         }

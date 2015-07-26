@@ -240,16 +240,17 @@ shared sealed interface Sequence<out Element=Anything>
                         outer[endIndex..endIndex-to]
                     else [];
         
-        iterator() 
-                => let (outerList = outer) 
-            object satisfies Iterator<Element> {
+        shared actual Iterator<Element> iterator() {
+            value outerList = outer;
+            mutable object result satisfies Iterator<Element> {
                 variable value index = outerList.size-1;
                 next() => index<0 
                     then finished 
                     else outerList.getElement(index--);
                 string => "``outer.string``.iterator()";
-            };
-        
+            }
+            return result;
+        }
     }
     
     class Repeat(Integer times)

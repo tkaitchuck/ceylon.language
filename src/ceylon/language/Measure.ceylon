@@ -40,23 +40,25 @@ class Measure<Element>(first, size)
     increasing => true;
     decreasing => false;
     
-    iterator()
-            => object satisfies Iterator<Element> {
-        variable value count = 0;
-        variable value current = first;
-        shared actual Element|Finished next() {
-             //++count > size
-             //       then finished else current++;
-             if (count >= size) {
-                 return finished;
-             } else if (count++ == 0) {
-                return current;
-            } else {
-                return ++current;
+    shared actual Iterator<Element> iterator() {
+        mutable object result satisfies Iterator<Element> {
+            variable value count = 0;
+            variable value current = first;
+            shared actual Element|Finished next() {
+                //++count > size
+                //       then finished else current++;
+                if (count >= size) {
+                    return finished;
+                } else if (count++ == 0) {
+                    return current;
+                } else {
+                    return ++current;
+                }
             }
+            string => "(``outer.string``).iterator()";
         }
-        string => "(``outer.string``).iterator()";
-    };
+        return result;
+    }
     
     shared actual 
     {Element+} by(Integer step) {
@@ -74,24 +76,26 @@ class Measure<Element>(first, size)
         
         string => "(``outer``).by(``step``)";
         
-        iterator() => object
-                satisfies Iterator<Element> {
-            variable value count = 0;
-            variable value current = first;
-            shared actual Element|Finished next() {
-                if (count >= size) {
-                    return finished;
-                } else {
-                    if (count++ == 0) {
-                        return current;
+        shared actual Iterator<Element> iterator() {
+            mutable object result satisfies Iterator<Element> {
+                variable value count = 0;
+                variable value current = first;
+                shared actual Element|Finished next() {
+                    if (count >= size) {
+                        return finished;
                     } else {
-                        current = current.neighbour(step);
-                        return current;
+                        if (count++ == 0) {
+                            return current;
+                        } else {
+                            current = current.neighbour(step);
+                            return current;
+                        }
                     }
                 }
+                string => "``outer``.iterator()";
             }
-            string => "``outer``.iterator()";
-        };
+            return result;
+        }
     }
     
     shifted(Integer shift) 

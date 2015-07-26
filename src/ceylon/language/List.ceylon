@@ -157,15 +157,15 @@ shared interface List<out Element=Anything>
     
     shared actual default Iterator<Element> iterator() {
         if (size>0) {
-            return object
-                    satisfies Iterator<Element> {
+            mutable object result satisfies Iterator<Element> {
                 variable Integer index = 0;
                 value size = outer.size;
                 next() => index>=size
                     then finished
                     else getElement(index++);
                 string => outer.string + ".iterator()";
-            };
+            }
+            return result;
         }
         else {
             return emptyIterator;
@@ -812,12 +812,14 @@ shared interface List<out Element=Anything>
             then "{ 0, ... , ``endIndex`` }"
             else "{}";
         
-        iterator() 
-                => object satisfies Iterator<Integer> {
+        shared actual Iterator<Integer> iterator() {
+            mutable object result satisfies Iterator<Integer> {
                 variable value i=0;
                 next() => i<size then i++ else finished;
                 string => "``outer.string``.iterator()";
-            };
+            }
+            return result;
+        }
         
     }
     
@@ -850,16 +852,17 @@ shared interface List<out Element=Anything>
         
         clone() => outer.clone().Rest(from);
         
-        iterator() 
-                => let (o = outer)
-            object satisfies Iterator<Element> {
+        shared actual Iterator<Element> iterator() {
+            value o = outer;
+            mutable object result satisfies Iterator<Element> {
                 variable value i=0;
                 next() => if (i < outer.size)
                     then o.getElement(from + i++)
                     else finished;
                 string => "``outer.string``.iterator()";
-            };
-        
+            }
+            return result;
+        }
     }
     
     class Sublist(Integer to)
@@ -898,16 +901,17 @@ shared interface List<out Element=Anything>
         
         clone() => outer.clone().Sublist(to);
         
-        iterator() 
-                => let (iter = outer.iterator()) 
-            object satisfies Iterator<Element> {
+        shared actual Iterator<Element> iterator() {
+            value iter = outer.iterator(); 
+            mutable object result satisfies Iterator<Element> {
                 variable value i=0;
                 next() => i++>to 
                     then finished 
                     else iter.next();
                 string => "``outer.string``.iterator()";
-            };
-        
+            }
+            return result;
+        }        
     }
             
     class Repeat(Integer times)
@@ -958,10 +962,10 @@ shared interface List<out Element=Anything>
         
         clone() => outer.clone().Patch(list.clone(),from,length);
         
-        iterator() 
-                => let (iter = outer.iterator(), 
-                        patchIter = list.iterator()) 
-            object satisfies Iterator<Element|Other> {
+        shared actual Iterator<Element|Other> iterator() {
+            value iter = outer.iterator();
+            value patchIter = list.iterator(); 
+            mutable object result satisfies Iterator<Element|Other> {
                 variable value index = -1;
                 shared actual Element|Other|Finished next() {
                     if (++index==from) {
@@ -974,7 +978,9 @@ shared interface List<out Element=Anything>
                         else iter.next();
                 }
                 string => "``outer.string``.iterator()";
-            };
+            }
+            return result;
+        }
         
     }
     
@@ -1017,16 +1023,17 @@ shared interface List<out Element=Anything>
         
         clone() => outer.clone().reversed;
         
-        iterator() 
-                => let (outerList = outer) 
-            object satisfies Iterator<Element> {
+        shared actual Iterator<Element> iterator() {
+            value outerList = outer; 
+            mutable object result satisfies Iterator<Element> {
                 variable value index=outerList.size-1;
                 next() => index<0 
                     then finished 
                     else outerList.getElement(index--);
                 string => "``outer.string``.iterator()";
-            };
-        
+            }
+            return result;
+        }
     }
     
 }

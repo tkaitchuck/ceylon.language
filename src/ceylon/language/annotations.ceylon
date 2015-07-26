@@ -324,7 +324,7 @@ shared annotation BlockingAnnotation blocking() => BlockingAnnotation();
 
 "The annotation class for the [[mutable]] annotation."
 shared final annotation class MutableAnnotation()
-		satisfies OptionalAnnotation<MutableAnnotation,ClassDeclaration> {}
+		satisfies OptionalAnnotation<MutableAnnotation,ValueDeclaration|ClassDeclaration> {}
 
 "Annotation to specify that a class is locally mutable.
  A mutable class has variable members."

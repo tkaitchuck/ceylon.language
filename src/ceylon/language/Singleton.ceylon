@@ -41,21 +41,22 @@ shared final serializable class Singleton<out Element>
     
     string => "[``stringify(element)``]";
     
-    shared actual Iterator<Element> iterator()
-            => object 
-            satisfies Iterator<Element> {
-        variable Boolean done = false;
-        shared actual Element|Finished next() {
-            if (done) {
-                return finished;
+    shared actual Iterator<Element> iterator() {
+        mutable object result satisfies Iterator<Element> {
+            variable Boolean done = false;
+            shared actual Element|Finished next() {
+                if (done) {
+                    return finished;
+                }
+                else {
+                    done = true;
+                    return element;
+                }
             }
-            else {
-                done = true;
-                return element;
-            }
+            string => "``outer.string``.iterator()";
         }
-        string => "``outer.string``.iterator()";
-    };
+        return result;
+    }
     
     "A `Singleton` can be equal to another `List` if 
      that `List` has only one element which is equal to 

@@ -120,21 +120,22 @@ native class Tuple<out Element, out First, out Rest = []>
     Tuple<Element,First,Rest> clone() => this;
     
     shared actual native 
-    Iterator<Element> iterator() 
-            => object
-            satisfies Iterator<Element> {
-        variable Element[] current = outer;
-        shared actual Element|Finished next() {
-            if (nonempty c = current) {
-                current = c.rest;
-                return c.first;
+    Iterator<Element> iterator() {
+        mutable object result satisfies Iterator<Element> {
+            variable Element[] current = outer;
+            shared actual Element|Finished next() {
+                if (nonempty c = current) {
+                    current = c.rest;
+                    return c.first;
+                }
+                else {
+                    return finished;
+                }
             }
-            else {
-                return finished;
-            }
+            string => "``outer.string``.iterator()";
         }
-        string => "``outer.string``.iterator()";
-    };
+        return result;
+    }
     
     "Determine if the given value is an element of this
      tuple."
