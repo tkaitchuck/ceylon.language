@@ -1,6 +1,6 @@
 import ceylon.language.meta.declaration { ValueDeclaration }
 
-class Bug670() {
+mutable class Bug670() {
     shared actual variable String string = "x";
 }
 

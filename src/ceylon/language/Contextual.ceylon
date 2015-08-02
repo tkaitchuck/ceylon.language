@@ -23,10 +23,10 @@ shared class Contextual<Element>() {
     
     native("jvm") shared class Using(Element|Element() newValue)
             satisfies Obtainable {
-        variable Element? previous = null; 
+        value previous = Box<Element?>(null); 
         
         shared actual void obtain() {
-            previous = threadLocal.get();
+            previous.set(threadLocal.get());
             if (is Element() newValue) {
                 threadLocal.set(newValue());    
             } else {
@@ -35,7 +35,7 @@ shared class Contextual<Element>() {
         }
         
         shared actual void release(Throwable? error) {
-            if (exists p=previous) {
+            if (exists p=previous.get()) {
                 threadLocal.set(p);
             } else {
                 threadLocal.remove();
@@ -45,7 +45,7 @@ shared class Contextual<Element>() {
 }
 
 native("js")
-shared class Contextual<Element>() {
+shared mutable class Contextual<Element>() {
     variable Element? val = null;
     
     native("js") shared Element get() {
@@ -55,10 +55,10 @@ shared class Contextual<Element>() {
     
     native("js") shared class Using(Element|Element() newValue)
             satisfies Obtainable {
-        variable Element? previous = null; 
+        value previous = Box<Element?>(null); 
         
         shared actual void obtain() {
-            previous = val;
+            previous.set(val);
             if (is Element() newValue) {
                 val = newValue();    
             } else {
@@ -67,7 +67,7 @@ shared class Contextual<Element>() {
         }
         
         shared actual void release(Throwable? error) {
-            if (exists p=previous) {
+            if (exists p=previous.get()) {
                 val = p;
             } else {
                 val = null;

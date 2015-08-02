@@ -1,6 +1,6 @@
 class Pair(String one, String two) satisfies {String*} {
     shared actual Iterator<String> iterator() {
-        object iterator satisfies Iterator<String> {
+        mutable object iterator satisfies Iterator<String> {
             variable Integer i=0;
             shared actual String|Finished next() {
                 i++;

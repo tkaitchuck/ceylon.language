@@ -50,13 +50,19 @@ class MyContainerWithoutLastElement() satisfies Container<Integer,Null> {
     shared actual Boolean contains(Object element) => element == 1;
 }
 class MyDestroyable() satisfies Destroyable {
-    shared variable Boolean opened = true;
-    shared actual void destroy(Throwable? e) {opened=false;}
+    value opened = Box<Boolean>(true);
+    shared Boolean destroyed {
+        return !opened.get();
+    }
+    shared actual void destroy(Throwable? e) {opened.set(false);}
 }
 class MyObtainable() satisfies Obtainable {
-    shared variable Boolean opened = false;
-    shared actual void obtain() {opened=true;}
-    shared actual void release(Throwable? e) {opened=false;}
+    value opened = Box<Boolean>(false);
+    shared Boolean outstanding {
+        return opened.get();
+    }
+    shared actual void obtain() {opened.set(true);}
+    shared actual void release(Throwable? e) {opened.set(false);}
 }
 class MyContainer() satisfies EmptyContainer {
     shared actual Null first { return null; }
@@ -64,7 +70,7 @@ class MyContainer() satisfies EmptyContainer {
     shared actual Boolean empty = true;
     shared actual Boolean contains(Object element) => false;
 }
-class MyIterator() satisfies Iterator<Integer> {
+mutable class MyIterator() satisfies Iterator<Integer> {
     variable value done = false;
     shared actual Integer|Finished next() {
         value r = done then finished else 1;
@@ -119,11 +125,19 @@ class MyRanged(Character[] contents='a'..'z')
     }
     iterator()=>contents.iterator();
 }
-class MyOrdinal(prev, next) satisfies Ordinal<MyOrdinal> {
-    shared variable MyOrdinal? prev;
-    shared variable MyOrdinal? next;
-    shared actual MyOrdinal successor { return next else this; }
-    shared actual MyOrdinal predecessor { return prev else this; }
+class MyOrdinal satisfies Ordinal<MyOrdinal> {
+    Box<MyOrdinal?> p;
+    Box<MyOrdinal?> n;
+	shared new (MyOrdinal? prev, MyOrdinal? next) {
+		p = Box(prev);
+		n = Box(next);
+	}
+	shared MyOrdinal? prev => p.get();
+	assign prev => p.set(prev);
+	shared MyOrdinal? next => n.get();
+	assign next => n.set(next);
+    shared actual MyOrdinal successor { return n.get() else this; }
+    shared actual MyOrdinal predecessor { return p.get() else this; }
 }
 class MyNumeric(Integer x) satisfies Numeric<MyNumeric> & Exponentiable<MyNumeric,Integer> {
     shared actual MyNumeric minus(MyNumeric other) { return MyNumeric(x-other.x); }
@@ -156,7 +170,7 @@ class MyCorrespondence() satisfies Correspondence<Integer, Character> {
 }
 class MyIterable() satisfies {String+} {
     shared actual Iterator<String> iterator() {
-        object iterator satisfies Iterator<String> {
+        mutable object iterator satisfies Iterator<String> {
             variable value i=0;
             shared actual String|Finished next() {
                 switch (i++)
@@ -218,15 +232,15 @@ shared void testSatisfaction() {
     check(cwfe.first exists, "Container.first [1]");
     check(!cwfe.last exists, "Container.first [2]");
     value dstrybl = MyDestroyable();
-    check(dstrybl.opened, "Destroyable [2]");
+    check(!dstrybl.destroyed, "Destroyable [2]");
     dstrybl.destroy(null);
-    check(!dstrybl.opened, "Destroyable [3]");
+    check(dstrybl.destroyed, "Destroyable [3]");
     value obtnbl = MyObtainable();
-    check(!obtnbl.opened, "Obtainable [1]");
+    check(!obtnbl.outstanding, "Obtainable [1]");
     obtnbl.obtain();
-    check(obtnbl.opened, "Obtainable [2]");
+    check(obtnbl.outstanding, "Obtainable [2]");
     obtnbl.release(null);
-    check(!obtnbl.opened, "Obtainable [3]");
+    check(!obtnbl.outstanding, "Obtainable [3]");
     check(MyContainer().empty, "Container");
     variable Sequential<Integer> myfixed = [];//MyNone();
     check(!myfixed nonempty, "None");

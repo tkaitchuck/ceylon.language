@@ -69,11 +69,8 @@ shared void testInlineExpressions() {
     //Object expressions
     Iterator<T> objectExpression1<T>(T element)
         => object satisfies Iterator<T> {
-               variable T|Finished e=element;
                shared actual T|Finished next() {
-                   value c=e;
-                   e=finished;
-                   return c;
+                   return element;
                }
     };
 

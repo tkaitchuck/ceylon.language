@@ -531,7 +531,7 @@ shared void strings() {
 
     //refined methods
     check("Hello".count((e)=>e.lowercase)==4, "String.count");
-    object countEach {
+    mutable object countEach {
         shared variable Integer counter=0;
     }
     "Hello".each((e)=>countEach.counter++);

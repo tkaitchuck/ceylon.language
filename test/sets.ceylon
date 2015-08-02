@@ -8,7 +8,17 @@ interface SetTestBase<out Element> satisfies Set<Element>
     shared formal Element[] elements;
 }
 
-class ArrayBuilder<Element>() {
+interface Appendable<Element> of ArrayBuilder<Element> {
+	shared formal Appendable<Element> append(Element element);
+	shared Appendable<Element> appendAll({Element*} elements) {
+		// TODO If we know the size of elements efficiently we can just do one allocation.
+		for (element in elements) {
+			append(element);
+		}
+		return this;
+	}
+}
+mutable class ArrayBuilder<opaque Element>() satisfies Appendable<Element> {
     
     "The storage"
     variable Array<Element>? storage = null;
@@ -50,20 +60,13 @@ class ArrayBuilder<Element>() {
         }
     }
     
-    shared ArrayBuilder<Element> append(Element element) {
+    shared actual ArrayBuilder<Element> append(Element element) {
         value store = getStorage(1, element);
         store.set(length, element);
         length += 1;
         return this;
     }
     
-    shared ArrayBuilder<Element> appendAll({Element*} elements) {
-        // TODO If we know the size of elements efficiently we can just do one allocation.
-        for (element in elements) {
-            append(element);
-        }
-        return this;
-    }
     shared actual String string {
         return sequence().string;
     }

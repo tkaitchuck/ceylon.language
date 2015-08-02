@@ -23,7 +23,7 @@ Integer|Float testIs1(Integer|Float x) {
     else { return infinity; }
 }
 
-class TestIs2(Integer|String x) {
+mutable class TestIs2(Integer|String x) {
     Integer|String y = x;
     variable shared String z;
     switch (y)

@@ -220,55 +220,63 @@ shared void checkMemberAttributes(){
     assert(obj(noParamsInstance).get() === noParamsInstance);
     assert(obj.bind(noParamsInstance).get() === noParamsInstance);
 
-    assert(is Attribute<NoParams, String, String> string2 = noParamsType.getAttribute<NoParams, String, String>("str2"));
+    value noParamsVariableInstance = NoParamsVariable();
+    value noParamsVariableType = type(noParamsInstance);
+
+    assert(is Attribute<NoParamsVariable, String, String> string2 = noParamsVariableType.getAttribute<NoParamsVariable, String, String>("str2"));
     assert(string2.declaration.variable);
-    value string2Bound = string2(noParamsInstance);
+    value string2Bound = string2(noParamsVariableInstance);
     assert(string2Bound.get() == "a");
     string2Bound.set("b");
     string2Bound.setIfAssignable("b");
-    string2Bound.declaration.memberSet(noParamsInstance, "b");
+    string2Bound.declaration.memberSet(noParamsVariableInstance, "b");
     assert(string2Bound.get() == "b");
-    assert(noParamsInstance.str2 == "b");
+    assert(noParamsVariableInstance.str2 == "b");
     
-    assert(is Attribute<NoParams, Integer, Integer> integer2 = noParamsType.getAttribute<NoParams, Integer, Integer>("integer2"));
-    value integer2Bound = integer2(noParamsInstance);
+    assert(is Attribute<NoParamsVariable, Integer, Integer> integer2 
+        = noParamsVariableType.getAttribute<NoParamsVariable, Integer, Integer>("integer2"));
+    value integer2Bound = integer2(noParamsVariableInstance);
     assert(integer2Bound.get() == 1);
     integer2Bound.set(2);
     integer2Bound.setIfAssignable(2);
     assert(integer2Bound.get() == 2);
-    assert(noParamsInstance.integer2 == 2);
+    assert(noParamsVariableInstance.integer2 == 2);
 
-    assert(is Attribute<NoParams, Float, Float> float2 = noParamsType.getAttribute<NoParams, Float, Float>("float2"));
-    value float2Bound = float2(noParamsInstance);
+    assert (is Attribute<NoParamsVariable,Float,Float> float2 
+        = noParamsVariableType.getAttribute<NoParamsVariable,Float,Float>("float2"));
+    value float2Bound = float2(noParamsVariableInstance);
     assert(float2Bound.get() == 1.2);
     float2Bound.set(2.1);
     float2Bound.setIfAssignable(2.1);
     assert(float2Bound.get() == 2.1);
-    assert(noParamsInstance.float2 == 2.1);
+    assert(noParamsVariableInstance.float2 == 2.1);
     
-    assert(is Attribute<NoParams, Character, Character> character2 = noParamsType.getAttribute<NoParams, Character, Character>("character2"));
-    value character2Bound = character2(noParamsInstance);
+    assert(is Attribute<NoParamsVariable, Character, Character> character2 
+        = noParamsVariableType.getAttribute<NoParamsVariable, Character, Character>("character2"));
+    value character2Bound = character2(noParamsVariableInstance);
     assert(character2Bound.get() == 'a');
     character2Bound.set('b');
     character2Bound.setIfAssignable('b');
     assert(character2Bound.get() == 'b');
-    assert(noParamsInstance.character2 == 'b');
+    assert(noParamsVariableInstance.character2 == 'b');
     
-    assert(is Attribute<NoParams, Boolean, Boolean> boolean2 = noParamsType.getAttribute<NoParams, Boolean, Boolean>("boolean2"));
-    value boolean2Bound = boolean2(noParamsInstance);
+    assert(is Attribute<NoParamsVariable, Boolean, Boolean> boolean2 
+        = noParamsVariableType.getAttribute<NoParamsVariable, Boolean, Boolean>("boolean2"));
+    value boolean2Bound = boolean2(noParamsVariableInstance);
     assert(boolean2Bound.get() == true);
     boolean2Bound.set(false);
     boolean2Bound.setIfAssignable(false);
     assert(boolean2Bound.get() == false);
-    assert(noParamsInstance.boolean2 == false);
+    assert(noParamsVariableInstance.boolean2 == false);
     
-    assert(is Attribute<NoParams, Object, Object> obj2 = noParamsType.getAttribute<NoParams, Object, Object>("obj2"));
-    value obj2Bound = obj2(noParamsInstance);
-    assert(obj2Bound.get() == 2);
-    obj2Bound.set(3);
-    obj2Bound.setIfAssignable(3);
-    assert(obj2Bound.get() == 3);
-    assert(noParamsInstance.obj2 == 3);
+    //assert(is Attribute<NoParamsVariable, Immutable, Immutable> obj2 
+    //    = noParamsVariableType.getAttribute<NoParamsVariable, Immutable, Immutable>("obj2"));
+    //value obj2Bound = obj2(noParamsVariableInstance);
+    //assert(obj2Bound.get() == 2);
+    //obj2Bound.set(3);
+    //obj2Bound.setIfAssignable(3);
+    //assert(obj2Bound.get() == 3);
+    //assert(noParamsVariableInstance.obj2 == 3);
 
     // getter that throws
     ThrowsMyException tme = ThrowsMyException(false);

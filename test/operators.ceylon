@@ -8,18 +8,23 @@ class Spread2() satisfies SpreadTest {
     shared actual String x() { return "S2"; }
 }
 
-class Rectangle(width, height) satisfies Scalable<Float,Rectangle> {
-    shared variable Float width;
-    shared variable Float height;
-    string => "Rectangle ``width`` by ``height``";
-    shared actual Boolean equals(Object other) {
-        if (is Rectangle other) {
-            return other.width==width && other.height==height;
-        }
-        return false;
-    }
-    shared actual Rectangle scale(Float d) => Rectangle(width*d, height*d);
-    shared Rectangle invert() {
+interface Rectangle { 
+	shared formal Float width;
+	shared formal Float height;
+	shared actual String string => "Rectangle ``width`` by ``height``";
+	shared actual Integer hash => width.hash*31 + height.hash;
+	shared actual Boolean equals(Object other) {
+		if (is Rectangle other) {
+			return other.width==width && other.height==height;
+		}
+		return false;
+	}
+}
+mutable class ScalableRectangle(width, height) extends Object() satisfies Scalable<Float,ScalableRectangle> & Rectangle {
+    shared actual variable Float width;
+    shared actual variable Float height;
+    shared actual ScalableRectangle scale(Float d) => ScalableRectangle(width*d, height*d);
+    shared ScalableRectangle invert() {
         value t = width;
         width = height;
         height = t;
@@ -123,7 +128,7 @@ shared void operators() {
     check(obj(true then X()) is X, "something");
     check(obj(true then X() else X()) is X, "something");
 
-    value scaleTestRectangle = Rectangle(2.0, 3.0);
-    check(2.0**scaleTestRectangle == Rectangle(4.0, 6.0), "scaling ``2.0**Rectangle(2.0, 3.0)``");
-    check(scaleTestRectangle.invert().width ** Rectangle(scaleTestRectangle.width, scaleTestRectangle.width) == Rectangle(9.0, 9.0), "scaling: LHS must be evaluated first!");
+    value scaleTestRectangle = ScalableRectangle(2.0, 3.0);
+    check(2.0**scaleTestRectangle == ScalableRectangle(4.0, 6.0), "scaling ``2.0**ScalableRectangle(2.0, 3.0)``");
+    check(scaleTestRectangle.invert().width ** ScalableRectangle(scaleTestRectangle.width, scaleTestRectangle.width) == ScalableRectangle(9.0, 9.0), "scaling: LHS must be evaluated first!");
 }

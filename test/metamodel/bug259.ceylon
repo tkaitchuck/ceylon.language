@@ -6,7 +6,7 @@ annotation Bug259_Annotation1 bug259_Annotation1() => Bug259_Annotation1();
 final annotation class Bug259_Annotation2() satisfies OptionalAnnotation<Bug259_Annotation2> {}
 annotation Bug259_Annotation2 bug259_Annotation2() => Bug259_Annotation2();
 
-class Bug259(){
+mutable class Bug259(){
     shared default bug259_Annotation1 Integer attribute1 => 1;
     shared Integer attribute2 => 1;
     bug259_Annotation1 Integer attribute3 => 1;

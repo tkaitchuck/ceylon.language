@@ -1,6 +1,6 @@
 import ceylon.language.meta.model {...}
 
-shared class Bug689() {
+shared mutable class Bug689() {
     shared String constantProperty = "";
     shared String computedProperty => "";
     

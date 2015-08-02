@@ -249,7 +249,7 @@ shared void numbers() {
     vi+=1;
     vj*=2;
     
-    class Inner() {
+    mutable class Inner() {
         shared variable Integer vi=0;
         shared variable Integer vj=0;
     }

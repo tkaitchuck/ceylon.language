@@ -132,7 +132,7 @@ shared interface AInterface {
 "AAbstractClass"
 seq("AAbstractClass 1")
 seq("AAbstractClass 2")
-shared abstract class AAbstractClass (
+shared mutable abstract class AAbstractClass (
     "AAbstractClass.parameter"
     String parameter) satisfies AInterface {
 

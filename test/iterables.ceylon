@@ -1,5 +1,5 @@
 "Simple class to test Iterable.each (and refined implementations)"
-shared class TestEach() {
+shared mutable class TestEach() {
   variable Boolean flag=false;
   shared void set() { flag=true; }
   shared Boolean ok => flag;

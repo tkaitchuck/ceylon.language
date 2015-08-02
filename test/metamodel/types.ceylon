@@ -49,14 +49,16 @@ class PrivateClass(){
 }
 class PrivateSubclass() extends PrivateClass() {}
 
-shared class NoParams(){
-    shared variable String str2 = "a";
-    shared variable Integer integer2 = 1;
-    shared variable Float float2 = 1.2;
-    shared variable Character character2 = 'a';
-    shared variable Boolean boolean2 = true;
-    shared variable Object obj2 = 2;
+shared mutable class NoParamsVariable(){
+	shared variable String str2 = "a";
+	shared variable Integer integer2 = 1;
+	shared variable Float float2 = 1.2;
+	shared variable Character character2 = 'a';
+	shared variable Boolean boolean2 = true;
+//	shared variable Immutable obj2 = 2;
+}
 
+shared class NoParams(){
     shared String str = "a";
     shared Integer integer = 1;
     shared Float float = 1.2;

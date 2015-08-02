@@ -3,7 +3,7 @@ shared class NativeBase(Integer a) {
 }
 
 
-native shared class NativeHeader(variable Integer b, Integer c) 
+native shared mutable class NativeHeader(variable Integer b, Integer c) 
         extends NativeBase(b) {
     native shared String meth() => "Native header method ``nbm()``";
     native shared String attr => "Native header attribute ``nba``";
@@ -14,7 +14,7 @@ native shared class NativeHeader(variable Integer b, Integer c)
     native String nba;
 }
 
-native("jvm") shared class NativeHeader(variable Integer b, Integer c)
+native("jvm") shared mutable class NativeHeader(variable Integer b, Integer c)
         extends NativeBase(b) {
     native("jvm") String nbm() => "``b++``:``c``";
     native("jvm") String nba => "``b++``:``c``";
@@ -27,7 +27,7 @@ native("jvm") shared class NativeHeader(variable Integer b, Integer c)
     }
 }
 
-native("js") shared class NativeHeader(variable Integer b, Integer c)
+native("js") shared mutable class NativeHeader(variable Integer b, Integer c)
         extends NativeBase(b) {
     native("js") String nbm() => "``b++``,``c``";
     native("js") String nba => "``b++``,``c``";

@@ -2,9 +2,9 @@ import ceylon.language.meta.model { Attribute }
 
 @test
 shared void bug534() {
-    class Command(){}
+    class Command() satisfies Immutable {}
     
-    class CommandValue(){
+    mutable class CommandValue(){
         shared variable Boolean bool = false; 
         shared variable Command command = Command(); 
     }

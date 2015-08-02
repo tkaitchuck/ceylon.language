@@ -30,8 +30,8 @@ shared class Locals_OuterLocalClass<Outer>(){
         }
         localMethod();
         
-        variable ClassDeclaration? classDecl3 = null;
-        variable ClassDeclaration? classDecl4 = null;
+        value classDecl3 = Box<ClassDeclaration?>(null);
+        value classDecl4 = Box<ClassDeclaration?>(null);
         Integer localAttribute {
             class LocalClassInLocalAttribute<Inner>(){}
             value d = `class LocalClassInLocalAttribute`;
@@ -39,7 +39,7 @@ shared class Locals_OuterLocalClass<Outer>(){
             assert(lm.variable);
             assert(lm.name == "localAttribute");
             assert(lm.container == `class Locals_OuterLocalClass`);
-            classDecl3 = d;
+            classDecl3.set(d);
             return 1;
         }
         assign localAttribute {
@@ -48,15 +48,15 @@ shared class Locals_OuterLocalClass<Outer>(){
             assert(is SetterDeclaration lm = d.container);
             assert(lm.name == "localAttribute");
             assert(lm.container == `class Locals_OuterLocalClass`);
-            classDecl4 = d;
+            classDecl4.set(d);
         }
         value attr0 = localAttribute;
         localAttribute = 1;
-        assert(exists cd3 = classDecl3, exists cd4 = classDecl4, cd3 != cd4);
+        assert(exists cd3 = classDecl3.get(), exists cd4 = classDecl4.get(), cd3 != cd4);
     }
     
-    variable ClassDeclaration? classDecl3_1 = null;
-    variable ClassDeclaration? classDecl4_1 = null;
+    value classDecl3_1 = Box<ClassDeclaration?>(null);
+    value classDecl4_1 = Box<ClassDeclaration?>(null);
     Integer privateAttribute {
         class LocalClassInLocalAttribute<Inner>(){}
         value d = `class LocalClassInLocalAttribute`;
@@ -64,7 +64,7 @@ shared class Locals_OuterLocalClass<Outer>(){
         assert(lm.variable);
         assert(lm.name == "privateAttribute");
         assert(lm.container == `class Locals_OuterLocalClass`);
-        classDecl3_1 = d;
+        classDecl3_1.set(d);
         
         // make sure types contained in getter are supported in type parser
         class LocalClass<Inner>(){}
@@ -84,7 +84,7 @@ shared class Locals_OuterLocalClass<Outer>(){
         assert(is SetterDeclaration lm = d.container);
         assert(lm.name == "privateAttribute");
         assert(lm.container == `class Locals_OuterLocalClass`);
-        classDecl4_1 = d;
+        classDecl4_1.set(d);
 
         // make sure types contained in setter are supported in type parser
         class LocalClass<Inner>(){}
@@ -100,7 +100,7 @@ shared class Locals_OuterLocalClass<Outer>(){
     value attr = privateAttribute;
     privateAttribute = 1;
     
-    assert(exists cd3 = classDecl3_1, exists cd4 = classDecl4_1, cd3 != cd4);
+    assert(exists cd3 = classDecl3_1.get(), exists cd4 = classDecl4_1.get(), cd3 != cd4);
     
     // this method turns privateAttribute from a local declaration to a member
     shared void capture(){
@@ -472,7 +472,7 @@ void locals_testPackageLocals(){
     Locals_ClassLocalsInFunctions().check();
 }
 
-class Locals_ClassLocalsInFunctions(){
+mutable class Locals_ClassLocalsInFunctions(){
     variable ClassDeclaration? localClass1 = null;
     variable ClassDeclaration? localClass2 = null;
     Anything() local1 = void(){

@@ -23,54 +23,58 @@ Integer errInRelease = 3;
 Integer errInDestroy = 3;
 
 class MyDestroyableResource(Integer err) satisfies Destroyable {
-    shared variable Integer state = stateUninit;
+    shared mutable object state {
+        shared variable Integer val = stateUninit;
+    }
 
     if (err == errInInit) {
         sharedState=0;
         throw ResourceException("init resource");
     }
 
-    state += statePostInit;
+    state.val += statePostInit;
     
     shared actual void destroy(Throwable? exception) {
-        state += statePreDestroy;
+        state.val += statePreDestroy;
         if (err == errInDestroy) {
-            sharedState = state;
+            sharedState = state.val;
             throw ResourceException("destroy resource");
         }
-        state += statePostDestroy;
-        sharedState = state;
+        state.val += statePostDestroy;
+        sharedState = state.val;
     }
 }
 
 class MyObtainableResource(Integer err) satisfies Obtainable {
-    shared variable Integer state = stateUninit;
+    shared mutable object state {
+        shared variable Integer val = stateUninit;
+    }
     
     if (err == errInInit) {
         sharedState=0;
         throw ResourceException("init resource");
     }
     
-    state += statePostInit;
+    state.val += statePostInit;
     
     shared actual void obtain() {
-        state += statePreObtain;
+        state.val += statePreObtain;
         if (err == errInObtain) {
-            sharedState = state;
+            sharedState = state.val;
             throw ResourceException("obtain resource");
         }
-        state += statePostObtain;
-        sharedState = state;
+        state.val += statePostObtain;
+        sharedState = state.val;
     }
     
     shared actual void release(Throwable? exception) {
-        state += statePreRelease;
+        state.val += statePreRelease;
         if (err == errInRelease) {
-            sharedState = state;
+            sharedState = state.val;
             throw ResourceException("release resource");
         }
-        state += statePostRelease;
-        sharedState = state;
+        state.val += statePostRelease;
+        sharedState = state.val;
     }
 }
 

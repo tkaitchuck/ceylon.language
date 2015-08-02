@@ -313,15 +313,6 @@ shared final annotation class BlockingAnnotation()
 "Annotation to specify that a method is blocking."
 shared annotation BlockingAnnotation blocking() => BlockingAnnotation();
 
-//"The annotation class for the [[immutable]] annotation."
-//shared final annotation class ImmutableAnnotation()
-//		satisfies OptionalAnnotation<ImmutableAnnotation,ClassDeclaration> {}
-//
-//"Annotation to specify that a class is immutable.
-// An immutable class must have no variable members,
-// and all of its members must also be immutable or primitives."
-//shared annotation ImmutableAnnotation immutable() => ImmutableAnnotation();
-
 "The annotation class for the [[mutable]] annotation."
 shared final annotation class MutableAnnotation()
 		satisfies OptionalAnnotation<MutableAnnotation,ValueDeclaration|ClassDeclaration> {}

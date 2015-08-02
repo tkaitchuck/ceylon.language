@@ -1,6 +1,6 @@
 import ceylon.language.meta.model { Method }
 
-shared class Bug548() {
+shared mutable class Bug548() {
     shared variable String? opt="";
     shared String? setOpt(String s) => "";
 }

@@ -1,6 +1,6 @@
 import ceylon.language.meta { modules }
 
-shared class BugC1201Person(name) {
+shared mutable class BugC1201Person(name) {
     variable shared String name;
     string=>name;
 }

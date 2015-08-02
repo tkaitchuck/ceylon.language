@@ -1,7 +1,7 @@
 import ceylon.language.meta.model { Attribute }
 import ceylon.language.meta { type }
 
-class Bug303() {
+mutable class Bug303() {
     shared variable String? nome = "Diego";
 }
 

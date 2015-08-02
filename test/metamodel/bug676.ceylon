@@ -1,6 +1,6 @@
 import ceylon.language.meta.declaration { ValueDeclaration }
 
-class Bug676Bar(variable Integer x) {
+mutable class Bug676Bar(variable Integer x) {
     
 }
 
